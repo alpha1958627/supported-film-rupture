@@ -1,0 +1,124 @@
+{
+  "normal_color_range": [
+    -3.1776855328151665,
+    3.1776855328151665
+  ],
+  "normal_mode": [
+    {
+      "xlim": [
+        0.0,
+        128.0
+      ],
+      "ylim": [
+        0.0,
+        128.0
+      ],
+      "xscale": "linear",
+      "yscale": "linear",
+      "xlabel": "$x/h_0$",
+      "ylabel": "$y/h_0$",
+      "xticks": [
+        0.0,
+        50.0,
+        100.0,
+        150.0
+      ],
+      "yticks": [
+        0.0,
+        25.0,
+        50.0,
+        75.0,
+        100.0,
+        125.0,
+        150.0
+      ]
+    },
+    {
+      "xlim": [
+        -32.0,
+        672.0
+      ],
+      "ylim": [
+        -0.8027306757310337,
+        1.2470873371846172
+      ],
+      "xscale": "linear",
+      "yscale": "linear",
+      "xlabel": "$t^*$",
+      "ylabel": "$\\log[A(t)/A(0)]$",
+      "xticks": [
+        0.0,
+        160.0,
+        320.0,
+        480.0,
+        640.0
+      ],
+      "yticks": [
+        -1.0,
+        -0.5,
+        0.0,
+        0.5,
+        1.0,
+        1.5
+      ]
+    }
+  ],
+  "tcw": [
+    {
+      "xlim": [
+        0.0,
+        0.53
+      ],
+      "ylim": [
+        0.0,
+        0.03490392266106086
+      ],
+      "xscale": "linear",
+      "yscale": "linear",
+      "xlabel": "$|\\boldsymbol{q}|h_0$",
+      "ylabel": "$10^3|\\widehat{\\delta h}/h_0|_{\\rm rms}$",
+      "xticks": [
+        0.0,
+        0.1,
+        0.2,
+        0.30000000000000004,
+        0.4,
+        0.5,
+        0.6000000000000001
+      ],
+      "yticks": [
+        0.0,
+        0.005,
+        0.01,
+        0.015,
+        0.02,
+        0.025,
+        0.03,
+        0.035
+      ]
+    }
+  ],
+  "reference_repository": "https://github.com/alpha1958627/free-film-rupture",
+  "reference_commit": "d597793",
+  "surface": {
+    "xlim": [
+      0,
+      256
+    ],
+    "ylim": [
+      0,
+      256
+    ],
+    "zlim": [
+      -1.75,
+      1.75
+    ],
+    "elev": 30,
+    "azim": -125,
+    "color_range": [
+      -1,
+      1
+    ],
+    "percent_scale": 100
+  }
+}

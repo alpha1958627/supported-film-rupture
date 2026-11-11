@@ -1,0 +1,31 @@
+{
+  "grid": 512,
+  "length": 1024.0,
+  "dt": 8.0,
+  "theta": 1e-05,
+  "steps": 160,
+  "pairs_per_protocol": 30,
+  "complete_shells": 84,
+  "workers": 6,
+  "elapsed_seconds": 322.25874873343855,
+  "first_seed": 61100,
+  "numerical_rms_floor": 1e-17,
+  "continuous": {
+    "max_rms_error_vs_midpoint": 0.1316203337784868,
+    "max_rms_error_vs_continuum": 0.13162578189842133,
+    "median_rms_error_vs_midpoint": 0.005565074343282184,
+    "excluded_tail_rows": 0,
+    "max_paired_rms_absolute_difference": 6.534012155119673e-18,
+    "max_paired_field_error": 3.9968028886505635e-15,
+    "max_mean_error": 4.440892098500626e-16
+  },
+  "first_step": {
+    "max_rms_error_vs_midpoint": 0.06451277261654043,
+    "max_rms_error_vs_continuum": 60.35401324716504,
+    "median_rms_error_vs_midpoint": 0.005491092466766434,
+    "excluded_tail_rows": 0,
+    "max_paired_rms_absolute_difference": 9.674175048828178e-19,
+    "max_paired_field_error": 8.881784197001252e-16,
+    "max_mean_error": 3.3306690738754696e-16
+  }
+}
