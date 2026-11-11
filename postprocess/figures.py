@@ -16,13 +16,18 @@ def axis_reference():
     return json.loads((ROOT/'data/figure_reference.json').read_text(encoding='utf-8'))
 
 
-def apply_reference(ax, reference):
+def apply_reference(ax, reference, fit_y=False):
     ax.set(xscale=reference['xscale'], yscale=reference['yscale'],
            xlabel=reference['xlabel'], ylabel=reference['ylabel'])
     ax.set_xticks(reference['xticks'])
-    ax.set_yticks(reference['yticks'])
     ax.set_xlim(reference['xlim'])
-    ax.set_ylim(reference['ylim'])
+    if fit_y:
+        ax.margins(y=.08)
+        ax.relim()
+        ax.autoscale(axis='y')
+    else:
+        ax.set_yticks(reference['yticks'])
+        ax.set_ylim(reference['ylim'])
     ax.grid(False, which='both')
 
 
@@ -63,7 +68,7 @@ def normal_mode():
     rate_ax.text(.96, .57, r'$a=0.0084375$', ha='right', transform=rate_ax.transAxes)
     rate_ax.text(.96, .22, r'$a=0$', ha='right', transform=rate_ax.transAxes)
     rate_ax.set_box_aspect(1)
-    apply_reference(rate_ax, reference['normal_mode'][1])
+    apply_reference(rate_ax, reference['normal_mode'][1], fit_y=True)
     rate_ax.legend(loc='lower center', bbox_to_anchor=(.5, 1.02), ncols=3,
                    handlelength=1.15, handletextpad=.35, columnspacing=.8, borderaxespad=0.)
     save(fig, 'normal_mode_2d')
@@ -75,7 +80,7 @@ def tcw():
     reference = axis_reference()['tcw'][0]
     data = np.genfromtxt(ROOT/'data/tcw.csv', names=True, delimiter=',')
     assert len(data) == 2*4*84
-    fig, ax = plt.subplots(figsize=(32/3, 6))
+    fig, ax = plt.subplots(figsize=(32/3, 6), layout='constrained')
     colors = ('#000000', '#D62728', '#1F77B4')
     times = (80, 320, 1280)
     for protocol, line in ((0, '-'), (1, '--')):
@@ -93,10 +98,11 @@ def tcw():
         Line2D([], [], color='black', linestyle='--', label=r'$\varphi=0$ after first step'),
         *(Line2D([], [], color=color, label=rf'$t^*={t}$') for color, t in zip(colors, times)),
     ]
-    ax.legend(handles=handles, loc='upper right', ncols=2, columnspacing=1.1, labelspacing=.25)
-    apply_reference(ax, reference)
+    ax.legend(handles=handles, loc='lower right', bbox_to_anchor=(1., 1.01), ncols=2,
+              columnspacing=1.1, labelspacing=.25, borderaxespad=0.)
+    apply_reference(ax, reference, fit_y=True)
+    ax.set_ylim(bottom=0.)
     ax.tick_params(direction='in', top=True, right=True)
-    fig.tight_layout()
     save(fig, 'tcw_sipf_512')
     return fig
 
