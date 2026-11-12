@@ -81,6 +81,10 @@ S_{\rm off}(q,t^*)&=S(q,t_0^*)\,e^{2s^*(q)(t^*-t_0^*)},\qquad t_0^*=\Delta t^*.
 
 ![仅首步加噪下 JAM 与 Basilisk 的三维厚度场并排动画](postprocess/figures/tcw_first_step_3d_paired.gif)
 
+## 附壁液膜破碎与预测对照
+
+![附壁液膜初始厚度与破碎时间、最低厚度历史及原预测的对照](postprocess/figures/wall_film_rupture_prediction_20261112.png)
+
 ## 代码入口
 
 - [JAM 二维求解器](jam/wall_film_2d.py) 的 `WallFilm2D.advance(h, white)` 推进一步。线性项在 Fourier 空间消元，有吸引时用解析雅可比修正非线性残差。
