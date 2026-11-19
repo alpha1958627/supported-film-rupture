@@ -23,6 +23,14 @@
 
 方形末点表示尚在计算，空心圆表示实际保存的停止阈值，叉表示数值停止。图仅画到核验的保存检查点；刷新时间写在看板内。hmin=0.3的短暂下穿与最终停止阈值0.005不同。
 
+### 与 Basilisk .3 的事件时间比较
+
+![共同单位和共同阈值下的事件时间](dashboard/rupture_comparison.png)
+
+[逐条已完成事件](dashboard/completed_events.csv) · [样本统计与说明](dashboard/event_comparison.md) · [旧批次参考及来源](reference/provenance.json)
+
+事件图统一为初始厚度的1%阈值，即 `hmin/h_0=.01*(h_i/h_0)`；从BE完整历史提取首次下穿及其接受步括区。本批次仍算到固定阈值0.005后才停止。方块与误差棒为5条事件的均值±样本SD，三角与向上箭头为尚未到阈值的观察下界。旧Basilisk .3批次没有0.5组，不用其他算例替代。
+
 ## 方程与离散
 
 ```math
@@ -77,6 +85,7 @@ python cluster.py --workspace runs/current watch
 ```bash
 python collect.py --workspace runs/current
 python render.py --workspace runs/current
+python compare_events.py --workspace runs/current
 python be/tcw_mode.py  # 重现已登记的0.7 TCW参考交点
 ```
 
