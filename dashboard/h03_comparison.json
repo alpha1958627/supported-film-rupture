@@ -6,7 +6,6 @@
   "summary": [
     {
       "height": 0.5,
-      "n_reached_03": 5,
       "n_observed": 5,
       "BE_mean_tau": 6.17925e-08,
       "BE_SD": 1.6017448006002705e-08,
@@ -21,11 +20,11 @@
       "TCW_branch": "TCW",
       "Basilisk_n": 0,
       "Basilisk_mean_saved_upper_bound": null,
-      "Basilisk_saved_upper_bounds": []
+      "Basilisk_saved_upper_bounds": [],
+      "n_reached_03": 5
     },
     {
       "height": 0.6,
-      "n_reached_03": 5,
       "n_observed": 5,
       "BE_mean_tau": 1.19427e-06,
       "BE_SD": 4.695200730034075e-07,
@@ -46,11 +45,11 @@
         1.26e-05,
         1.08e-05,
         8.140456019531249e-06
-      ]
+      ],
+      "n_reached_03": 5
     },
     {
       "height": 0.7,
-      "n_reached_03": 5,
       "n_observed": 5,
       "BE_mean_tau": 1.4379855000000001e-05,
       "BE_SD": 7.923956598055002e-06,
@@ -71,11 +70,11 @@
         0.00010127823037670898,
         0.0001029,
         6.282798034570312e-05
-      ]
+      ],
+      "n_reached_03": 5
     },
     {
       "height": 0.8,
-      "n_reached_03": 0,
       "n_observed": 5,
       "BE_mean_tau": null,
       "BE_SD": null,
@@ -90,11 +89,11 @@
         0.000192,
         0.0001968,
         0.0003552
-      ]
+      ],
+      "n_reached_03": 0
     },
     {
       "height": 0.9,
-      "n_reached_03": 0,
       "n_observed": 5,
       "BE_mean_tau": null,
       "BE_SD": null,
@@ -109,7 +108,8 @@
         0.0007263,
         0.0003105,
         0.0005768919545910645
-      ]
+      ],
+      "n_reached_03": 0
     }
   ],
   "events": {
@@ -593,7 +593,7 @@
       }
     ]
   },
-  "note": "Same previously verified 25-path snapshot, reclassified at first hmin/h0<=.3. BE uses all accepted-step records. Old Basilisk observation spacing is 300 native-time units, so blue markers are upper bounds, not exact first-passage times. Simulation jobs retain their original .005 stop setting; this is an analysis criterion.",
+  "note": "Same previously verified 25-path snapshot, reclassified at first hmin/h0<=0.3. BE uses all accepted-step records. Old Basilisk observation spacing is 300 native-time units, so blue markers are upper bounds, not exact first-passage times. Simulation jobs retain their original .005 stop setting; this is an analysis criterion.",
   "theory": "One fixed no-slip white6 continuum TCW+mode construction, fixed 256\u00b2 sum. No fitted C or seed-dependent theory. This is an extremal-envelope prediction, not a derived stochastic MFPT.",
   "normalization": "New BE directly outputs tau; old tau=height*t_native/1e8, h/h0=height*H_native. Old slip=.2, new no slip. Exact old batch has no height=.5."
 }

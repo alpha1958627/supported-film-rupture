@@ -33,6 +33,14 @@
 
 0.5组在TCW分支上已到0.3，该交点直接求TCW分支的根；其余组在拼接后的mode分支到0.3。运行端仍保存至原0.005目标以分析后续演化；以下原统计保留。
 
+### 附加判据：首次到0.4
+
+![首次到0.4的TCW+mode与数值对比](dashboard/TCW_mode_vs_h04.png)
+
+[0.4统计与定义](dashboard/h04_comparison.md) · [hmin曲线首次到0.4截断](dashboard/hmin_first_h04.png) · [逐条事件及观察下界](dashboard/BE_h04_events.csv)
+
+使用与0.3组完全相同的核验快照，只改变统计阈值。未全部到达的厚度只展示逐条事件和观察下界，不给事件子集的平均值。TCW+mode参数保持不变；阈值在TCW段内先到达时直接求该段交点。
+
 ### 原0.005停止事件与 Basilisk .3 的比较
 
 ![共同单位和共同阈值下的事件时间](dashboard/rupture_comparison.png)
@@ -97,6 +105,7 @@ python collect.py --workspace runs/current
 python render.py --workspace runs/current
 python compare_events.py --workspace runs/current
 python compare_h03.py --workspace runs/current
+python compare_h03.py --workspace runs/current --threshold 0.4
 python be/tcw_mode.py  # 重现已登记的0.7 TCW参考交点
 ```
 
