@@ -27,10 +27,16 @@ class TCWMode:
   v,d=self.variance(t);return d/(2*v)-self.omega
  def predict(self,t):
   return self.height-self.C*np.sqrt(self.variance(t)[0]) if t<=self.switch else self.height-self.amplitude*np.exp(self.omega*(t-self.switch))
- def crossing(self,threshold):return self.switch+np.log((self.height-threshold)/self.amplitude)/self.omega
+ def crossing(self,threshold):
+  assert 0<=threshold<self.height
+  if threshold>=self.predict(self.switch):
+   return brentq(lambda t:self.predict(t)-threshold,0,self.switch,xtol=1e-16)
+  return self.switch+np.log((self.height-threshold)/self.amplitude)/self.omega
 
 if __name__=='__main__':
  m=TCWMode(.7)
  assert abs(m.crossing(.3)-.00027534816151632166)<1e-12
  assert np.isclose(m.C*np.sqrt(m.variance(m.switch)[0]),m.amplitude)
+ early=TCWMode(.5);t=early.crossing(.3)
+ assert 0<t<early.switch and abs(early.predict(t)-.3)<1e-9
  print('Registered h=.7 TCW reference reproduced:',m.crossing(.3))

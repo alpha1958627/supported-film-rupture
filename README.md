@@ -23,7 +23,17 @@
 
 方形末点表示尚在计算，空心圆表示实际保存的停止阈值，叉表示数值停止。图仅画到核验的保存检查点；刷新时间写在看板内。hmin=0.3的短暂下穿与最终停止阈值0.005不同。
 
-### 与 Basilisk .3 的事件时间比较
+### 以首次到0.3为破碎：TCW+mode vs 数值轨迹
+
+![首次到0.3的TCW+mode与数值对比](dashboard/TCW_mode_vs_h03.png)
+
+[到0.3的统计及定义](dashboard/h03_comparison.md) · [hmin曲线：首次到0.3即截断](dashboard/hmin_first_h03.png) · [BE逐条事件](dashboard/BE_h03_events.csv)
+
+本节按用户新判据，将首次 `hmin/h_0≤0.3` 定义为统计破碎，即使此后回升也计入。红色BE事件来自完整接受步历史；蓝色旧Basilisk数据每300个原生时间才保存一次，只能提供首次下穿时间的上界。黑线保持固定 `C_rms=3.5` 的TCW+mode包络交点，不拟合轨迹，也不将其解释为严格的随机首达平均。
+
+0.5组在TCW分支上已到0.3，该交点直接求TCW分支的根；其余组在拼接后的mode分支到0.3。运行端仍保存至原0.005目标以分析后续演化；以下原统计保留。
+
+### 原0.005停止事件与 Basilisk .3 的比较
 
 ![共同单位和共同阈值下的事件时间](dashboard/rupture_comparison.png)
 
@@ -86,6 +96,7 @@ python cluster.py --workspace runs/current watch
 python collect.py --workspace runs/current
 python render.py --workspace runs/current
 python compare_events.py --workspace runs/current
+python compare_h03.py --workspace runs/current
 python be/tcw_mode.py  # 重现已登记的0.7 TCW参考交点
 ```
 
