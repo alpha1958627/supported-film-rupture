@@ -4,7 +4,7 @@ import argparse,json,csv,io,hashlib,subprocess,base64,sys,os
 import numpy as np
 
 p=argparse.ArgumentParser();p.add_argument('--workspace',required=True);p.add_argument('--source-root',default='F:/Predict_rupture/spinodal_comparison_20261110');args=p.parse_args()
-ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parent;SOURCE=Path(args.source_root)
+ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parents[2];SOURCE=Path(args.source_root)
 OUT=REPO/'dashboard/review_C5_image_reference';OUT.mkdir(exist_ok=True)
 files=dict(figure_csv=SOURCE/'tcw_extremes/event_times_2024PRF.csv',figure_script=SOURCE/'tcw_extremes/analyze_tcw_prf.py',original_preview=SOURCE/'tcw_extremes/event_times_2024PRF_preview.png',individual=SOURCE/'fit_h05/individual_events.csv',crossing_script=SOURCE/'fit_h05/plot_fit_h05.py',h05_cases=SOURCE/'fit_h05/basilisk_h05_cases.csv')
 def csvread(path):return list(csv.DictReader(path.open(encoding='utf-8-sig')))

@@ -4,7 +4,7 @@ import argparse,json,csv,hashlib,subprocess,base64,io,sys,os,datetime
 import numpy as np
 
 parser=argparse.ArgumentParser();parser.add_argument('--workspace',required=True);args=parser.parse_args()
-ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parent;OUT=REPO/'dashboard'
+ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parents[2];OUT=REPO/'dashboard'
 snapshot=json.loads((ROOT/'snapshot.json').read_text())
 items=[v for g in snapshot['groups'] for v in g.get('items',[]) if v['route']['kind']=='production']
 assert len(items)==25 and not any(v.get('numerical_gate_violation') for v in items)

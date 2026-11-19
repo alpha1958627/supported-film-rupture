@@ -1,5 +1,7 @@
 # BE短测与来源
 
+本目录只对应 [BE–MG](../be/README.md)。新无滑移随机中点版的验证回执在 [Basilisk验证](../dashboard/basilisk_noslip/validation.json)；旧JAM/C–FFT验证保存在 [历史归档](../archives/README.md)。`revisions/`中的v1/v2是BE验证脚本迭代，不是两套物理求解器的版本号。
+
 `v2_h05.json`至`v2_h09.json`是各厚度的实际短测回执；只有passed=true才允许提交该厚度的五条轨迹。两条验证种子不计入25条计算。
 
 - 同路径强误差：每条验证路径积分256个Brownian宏区间，64个共同保存时刻，对照细步除数64。

@@ -2,6 +2,19 @@
 
 这是一套独立于 `be/` 的实现：Basilisk 周期 multigrid 网格，随机中点时间推进，Newton–GMRES 解完整非线性更新，FFT 只作线性预条件。不是旧的冻结迁移率 FFT 时间推进，也不是 BE 时间推进。历史 Basilisk 原件单独保存在 `archives/basilisk_midpoint_original_20261025.zip`，不覆盖旧验证。
 
+| 文件 | 用途 |
+|---|---|
+| `basilisk_midpoint.c` | C/Basilisk随机中点数值内核 |
+| `basilisk_midpoint_candidate.py` | C内核的ctypes接口与指纹检查点；文件名沿用来源 |
+| `midpoint_candidate.py` | NumPy参考实现，用于逐项对照 |
+| `adaptive_runner.py` | Brownian路径、自适应拒步与事件细化 |
+| `driver.py` | MPI运行端、历史输出和资源窗保存 |
+| `validate.py` | 算子、重启与步长筛查 |
+| `tcw_mode.py` | 本版对应的TCW+mode曲线 |
+| `build.sh`、`campaign.json` | 编译与25条工况表 |
+
+本页工具命令从仓库根目录执行。[工具导航](../tools/README.md) · [结果导航](../dashboard/README.md) · [历史归档](../archives/README.md)
+
 ## 本次工况
 
 初厚 `r=h_i/h_0=.5,.6,.7,.8,.9`，各5个独立种子；64²网格，两个方向独立面白噪声，`φ=.01`，无排斥、无滑移；每条4 MPI进程，每进程1核。全部种子列在 [campaign.json](campaign.json)。这25条是新的测试，不代替或暂停原BE任务。
@@ -22,10 +35,10 @@
 
 在配置好 `BASILISK` 和 MPI `CC99` 后执行 `bash build.sh`。SIPF使用qcc直接编译；WUZH旧qcc转换器触发内部断言，部署器在SIPF用 `qcc -source -D_GNU_SOURCE -D_MPI=1 -O3 -shared -fPIC basilisk_midpoint.c` 生成标准C，在WUZH由当地mpicc编译相同数值内核。生成物留在本地/服务器，不随仓库上传。每个运行站点仍须重新通过C/Python算子门槛。
 
-本地部署入口：`python bm_cluster.py --workspace <私有工作目录> prepare` 后 `watch`。私有目录包含 sites.json、完整工况、候选及赢家路由。SIPF先提交，排队才同时竞速XH/WUZH；检查实际运行及算子门槛后保留赢家，取消其他候选并校验归档后清理。站点配置与原始场不公开。
+本地部署入口：`python tools/basilisk_midpoint/cluster.py --workspace <私有工作目录> prepare` 后 `watch`。私有目录包含 sites.json、完整工况、候选及赢家路由。SIPF先提交，排队才同时竞速XH/WUZH；检查实际运行及算子门槛后保留赢家，取消其他候选并校验归档后清理。站点配置与原始场不公开。
 
 ## 图与理论
 
-[实时派生看板](../dashboard/basilisk_noslip/README.md) 由 `bm_report.py --workspace <私有工作目录>` 刷新。实线画所有已保存种子；方形末点为未到阈值，圆形末点为实际跨越。公开仅抽样hmin、门槛验证和脱敏状态，完整历史与场留在服务器。
+[实时派生看板](../dashboard/basilisk_noslip/README.md) 由 `python tools/basilisk_midpoint/report.py --workspace <私有工作目录>` 刷新。实线画所有已保存种子；方形末点为未到阈值，圆形末点为实际跨越。公开仅抽样hmin、门槛验证和脱敏状态，完整历史与场留在服务器。
 
 `tcw_mode.py` 用本实现的64²连续Fourier白噪声谱、A=13.159、无滑移和 `C_rms=5`，不加BE旧理论中的双线性插值传递函数；值及斜率连续拼接至最快增长模。每个厚度只有一条确定模型线，所有种子共用。它是线性涨落包络与模式增长预测，不是随机首达平均；与BE旧256²、sinc⁴过滤的模型线有定义差异。

@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse,json,subprocess,shlex,tarfile,hashlib,time,traceback,base64
 
 parser=argparse.ArgumentParser();parser.add_argument('--workspace',required=True);parser.add_argument('action',choices=['prepare','advance','watch']);args=parser.parse_args()
-ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parent
+ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parents[2]
 campaign=json.loads((REPO/'campaign.json').read_text());sites=json.loads((ROOT/'sites.json').read_text())
 def atomic(p,obj):
  temp=p.with_suffix('.tmp');temp.write_text(json.dumps(obj,indent=2),encoding='utf-8');temp.replace(p)

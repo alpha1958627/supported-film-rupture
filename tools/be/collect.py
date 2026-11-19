@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse,json,subprocess,base64,hashlib,time
 
 p=argparse.ArgumentParser();p.add_argument('--workspace',required=True);a=p.parse_args()
-ROOT=Path(a.workspace).resolve();REPO=Path(__file__).resolve().parent
+ROOT=Path(a.workspace).resolve();REPO=Path(__file__).resolve().parents[2]
 campaign=json.loads((REPO/'campaign.json').read_text());selected=json.loads((ROOT/'selected.json').read_text()) if (ROOT/'selected.json').exists() else {}
 routes=[v['winner'] for v in selected.values()]
 script=r'''

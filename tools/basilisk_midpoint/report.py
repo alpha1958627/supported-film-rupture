@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse,json,subprocess,shlex,hashlib,sys,os,csv,io
 import numpy as np
 p=argparse.ArgumentParser();p.add_argument('--workspace',required=True);args=p.parse_args()
-ROOT=Path(args.workspace);REPO=Path(__file__).resolve().parent;OUT=REPO/'dashboard/basilisk_noslip';OUT.mkdir(exist_ok=True)
+ROOT=Path(args.workspace);REPO=Path(__file__).resolve().parents[2];OUT=REPO/'dashboard/basilisk_noslip';OUT.mkdir(exist_ok=True)
 campaign=json.loads((ROOT/'campaign.json').read_text());selected=json.loads((ROOT/'selected.json').read_text());records=[]
 code=r'''
 from pathlib import Path

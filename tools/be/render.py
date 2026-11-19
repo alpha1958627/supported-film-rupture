@@ -4,7 +4,7 @@ import json,sys,argparse,datetime,html,csv,io,os
 import numpy as np
 
 p=argparse.ArgumentParser();p.add_argument('--workspace',required=True);args=p.parse_args()
-ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parent;OUT=REPO/'dashboard';OUT.mkdir(exist_ok=True)
+ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parents[2];OUT=REPO/'dashboard';OUT.mkdir(exist_ok=True)
 os.environ['MPLCONFIGDIR']=str(ROOT/'mpl_cache')
 sys.path.insert(0,str(REPO/'be'));from tcw_mode import TCWMode
 sys.path.insert(0,str(REPO/'postprocess'))

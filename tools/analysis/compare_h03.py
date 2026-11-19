@@ -6,7 +6,7 @@ import numpy as np
 parser=argparse.ArgumentParser();parser.add_argument('--workspace',required=True);parser.add_argument('--threshold',type=float,choices=(.3,.4),default=.3);args=parser.parse_args()
 THRESHOLD=args.threshold;assert 0<THRESHOLD<.5
 TAG='h%02d'%round(THRESHOLD*10);COUNT_KEY='n_reached_%02d'%round(THRESHOLD*10)
-ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parent;OUT=REPO/'dashboard'
+ROOT=Path(args.workspace).resolve();REPO=Path(__file__).resolve().parents[2];OUT=REPO/'dashboard'
 snapshot=json.loads((ROOT/'snapshot.json').read_text())
 items=[v for group in snapshot['groups'] for v in group.get('items',[]) if v['route']['kind']=='production']
 assert len(items)==25
