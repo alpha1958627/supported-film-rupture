@@ -1,0 +1,184 @@
+{
+  "snapshot_utc": "2026-11-19T08:18:24Z",
+  "C_rms": 5,
+  "phi": 0.01,
+  "original_figure_definition": "H=h/h_initial; Hmin=.4. Original native initial H=1. Common u=h/h_reference therefore has threshold u=.4*height.",
+  "source_files": {
+    "figure_csv": {
+      "path": "F:\\Predict_rupture\\spinodal_comparison_20261110\\tcw_extremes\\event_times_2024PRF.csv",
+      "sha256": "b1f24435e36a6f936cca468ecd6e24a88629dd6b7454512821da6415c872d0e8"
+    },
+    "figure_script": {
+      "path": "F:\\Predict_rupture\\spinodal_comparison_20261110\\tcw_extremes\\analyze_tcw_prf.py",
+      "sha256": "ed43e4596a3cc0a689ce9f592620384d49d708b3f8b852a56e4b43240ff0087b"
+    },
+    "original_preview": {
+      "path": "F:\\Predict_rupture\\spinodal_comparison_20261110\\tcw_extremes\\event_times_2024PRF_preview.png",
+      "sha256": "f42d15d2ded4950cd61e05a7923dc8e751fede9fbea296bdda73aaff585d255c"
+    },
+    "individual": {
+      "path": "F:\\Predict_rupture\\spinodal_comparison_20261110\\fit_h05\\individual_events.csv",
+      "sha256": "7a6fc162152d99ef6dabc65e4ed8f998d60cd85d98a2c5ee4dc2c8b8cf604068"
+    },
+    "crossing_script": {
+      "path": "F:\\Predict_rupture\\spinodal_comparison_20261110\\fit_h05\\plot_fit_h05.py",
+      "sha256": "48b7d7161ab82c53bbbb09ac71311afef6d61b63bfa15ecee4aea6fe8445d80f"
+    },
+    "h05_cases": {
+      "path": "F:\\Predict_rupture\\spinodal_comparison_20261110\\fit_h05\\basilisk_h05_cases.csv",
+      "sha256": "55bda4b653c1116a5e99748d54620b0212e703fc6300e5c3dcdbd3f5362743dd"
+    }
+  },
+  "Basilisk_rows_unchanged": [
+    {
+      "series": "Basilisk",
+      "h0": "0.5",
+      "criterion": "first_recorded_Hmin_0.4",
+      "tau": "1.595433991224486e-06",
+      "tau_lower": "1.5e-06",
+      "tau_upper": "2.171062828369141e-06",
+      "n": "5.0",
+      "md_time_ps": "",
+      "switch_tau": "",
+      "switch_H": "",
+      "branch": "",
+      "omega": "",
+      "crms": "",
+      "q_used": "",
+      "delta0": "",
+      "t_code": ""
+    },
+    {
+      "series": "Basilisk",
+      "h0": "0.6",
+      "criterion": "first_recorded_Hmin_0.4",
+      "tau": "1.6126845055645104e-05",
+      "tau_lower": "1.548e-05",
+      "tau_upper": "1.6972008560156252e-05",
+      "n": "5.0",
+      "md_time_ps": "",
+      "switch_tau": "",
+      "switch_H": "",
+      "branch": "",
+      "omega": "",
+      "crms": "",
+      "q_used": "",
+      "delta0": "",
+      "t_code": ""
+    },
+    {
+      "series": "Basilisk",
+      "h0": "0.7",
+      "criterion": "first_recorded_Hmin_0.4",
+      "tau": "8.113437658780188e-05",
+      "tau_lower": "8.064e-05",
+      "tau_upper": "8.234546104838867e-05",
+      "n": "5.0",
+      "md_time_ps": "",
+      "switch_tau": "",
+      "switch_H": "",
+      "branch": "",
+      "omega": "",
+      "crms": "",
+      "q_used": "",
+      "delta0": "",
+      "t_code": ""
+    },
+    {
+      "series": "Basilisk",
+      "h0": "0.8",
+      "criterion": "first_recorded_Hmin_0.4",
+      "tau": "0.0002622929597902",
+      "tau_lower": "0.00026064",
+      "tau_upper": "0.00026304",
+      "n": "5.0",
+      "md_time_ps": "",
+      "switch_tau": "",
+      "switch_H": "",
+      "branch": "",
+      "omega": "",
+      "crms": "",
+      "q_used": "",
+      "delta0": "",
+      "t_code": ""
+    },
+    {
+      "series": "Basilisk",
+      "h0": "0.9",
+      "criterion": "first_recorded_Hmin_0.4",
+      "tau": "0.0005067583884984",
+      "tau_lower": "0.0005049",
+      "tau_upper": "0.0005074183909182",
+      "n": "5.0",
+      "md_time_ps": "",
+      "switch_tau": "",
+      "switch_H": "",
+      "branch": "",
+      "omega": "",
+      "crms": "",
+      "q_used": "",
+      "delta0": "",
+      "t_code": ""
+    }
+  ],
+  "original_crossing_method": "First saved native H<=.4, linear interpolation of the preceding sampled segment; mean of five paths. These are supplied-figure estimates, not exactly resolved stochastic first-passage times.",
+  "theory_used": "Current no-slip m=h^3, phi=.01, white6 sinc^4 transfer, fixed 256\u00b2 spectrum; C changed to5. The supplied figure original theory instead used slip=.2 and a 64\u00b2 continuum spectrum without this interpolation transfer.",
+  "original_h05_source": "Nov10 supplementary five paths, including seed4 retry; .6-.9 from Oct25 formal batch.",
+  "summary": [
+    {
+      "height": 0.5,
+      "common_threshold_h_over_reference": 0.2,
+      "Basilisk_image_tau": 1.595433991224486e-06,
+      "BE_local_H04_reached": 5,
+      "BE_local_H04_mean": 1.7621099999999999e-06,
+      "TCW_C5_current_parameters_local_H04": 1.0418088508384887e-05,
+      "BE_absolute_04_reached": 5,
+      "BE_absolute_04_mean": 6.930000000000001e-09,
+      "TCW_C5_current_parameters_absolute_04": 1.094526872581134e-08
+    },
+    {
+      "height": 0.6,
+      "common_threshold_h_over_reference": 0.24,
+      "Basilisk_image_tau": 1.6126845055645104e-05,
+      "BE_local_H04_reached": 5,
+      "BE_local_H04_mean": 5.298142500000001e-06,
+      "TCW_C5_current_parameters_local_H04": 4.660663110333121e-05,
+      "BE_absolute_04_reached": 5,
+      "BE_absolute_04_mean": 3.843e-08,
+      "TCW_C5_current_parameters_absolute_04": 2.9515354109614954e-07
+    },
+    {
+      "height": 0.7,
+      "common_threshold_h_over_reference": 0.27999999999999997,
+      "Basilisk_image_tau": 8.113437658780188e-05,
+      "BE_local_H04_reached": 4,
+      "BE_local_H04_mean": null,
+      "TCW_C5_current_parameters_local_H04": 0.00014233319302367286,
+      "BE_absolute_04_reached": 5,
+      "BE_absolute_04_mean": 6.624975e-07,
+      "TCW_C5_current_parameters_absolute_04": 1.4212621327243086e-05
+    },
+    {
+      "height": 0.8,
+      "common_threshold_h_over_reference": 0.32000000000000006,
+      "Basilisk_image_tau": 0.0002622929597902,
+      "BE_local_H04_reached": 1,
+      "BE_local_H04_mean": null,
+      "TCW_C5_current_parameters_local_H04": 0.00035942608263708645,
+      "BE_absolute_04_reached": 4,
+      "BE_absolute_04_mean": null,
+      "TCW_C5_current_parameters_absolute_04": 0.0002009140681813649
+    },
+    {
+      "height": 0.9,
+      "common_threshold_h_over_reference": 0.36000000000000004,
+      "Basilisk_image_tau": 0.0005067583884984,
+      "BE_local_H04_reached": 0,
+      "BE_local_H04_mean": null,
+      "TCW_C5_current_parameters_local_H04": 0.0008219636945544524,
+      "BE_absolute_04_reached": 0,
+      "BE_absolute_04_mean": null,
+      "TCW_C5_current_parameters_absolute_04": 0.0006927341557450285
+    }
+  ]
+}

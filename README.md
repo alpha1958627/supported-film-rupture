@@ -17,6 +17,8 @@
 
 [完整工况与种子](campaign.json) · [状态CSV](dashboard/status.csv) · [看板HTML](dashboard/index.html) · [验证结果和来源SHA](dashboard/data.json)
 
+最新另存核对版：[C_rms=5、所附原图Basilisk数据](dashboard/review_C5_image_reference/README.md)。原图使用 `H=h/h_i`、`Hmin=.4`，对应当前参考厚度阈值 `.4*(h_i/h_0)`；该版已将BE事件按同一判据提取。原图红点是稀疏观测的线性插值后五条均值，按原样恢复。黑线保持当前无滑移BE参数，只把C改为5；原图含滑移.2的C5理论另附原样核对图。以下原C=3.5与固定绝对阈值版本保留。
+
 ![25条轨迹及TCW+mode看板](dashboard/board.png)
 
 看板保留每个厚度的全部5条轨迹，不将未到阈值的轨迹计为破碎时间。虚线为每个厚度唯一的 TCW+mode：沿用 `C_rms=3.5`、white6连续谱传递近似、固定256²求和截断及值/斜率连续拼接；不随种子重算或拟合。256²是理论求和设置，计算网格仍是64²。
@@ -106,6 +108,7 @@ python render.py --workspace runs/current
 python compare_events.py --workspace runs/current
 python compare_h03.py --workspace runs/current
 python compare_h03.py --workspace runs/current --threshold 0.4
+python review_c5_image_reference.py --workspace runs/current --source-root /path/to/spinodal_comparison_20261110
 python be/tcw_mode.py  # 重现已登记的0.7 TCW参考交点
 ```
 

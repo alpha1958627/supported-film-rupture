@@ -1,0 +1,12 @@
+{
+  "source_image": "event_times_2024PRF_preview.png",
+  "provided_image": "codex-clipboard-9dc179c6-2bc6-4b0f-bc50-73dd596f685f.png",
+  "size": [
+    1080,
+    810
+  ],
+  "pixels_identical": true,
+  "source_file_sha256": "f42d15d2ded4950cd61e05a7923dc8e751fede9fbea296bdda73aaff585d255c",
+  "provided_file_sha256": "8f60dd99df70cccd86a156684ed2ad1a9bbd3163ecf2bf4922d49a820ed1c756",
+  "decoded_RGB_sha256": "7dc2db190f5e77593d18b725b21a210c04252a080e8db60c482b86dc50b987a9"
+}
