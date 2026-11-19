@@ -1,0 +1,12 @@
+{
+  "adaptive_runner.py": "35e6f8d8c7159340a8b524ac731746c37240d3832e8599f16ab5b06e9ac1cf8e",
+  "basilisk_midpoint.c": "20bc9e5ad7cd650c7647dacca3ba6a0a63cb6099570d5e4e731e9cc58b984d5d",
+  "basilisk_midpoint_candidate.py": "1e5af274818fd77da553a7987e93ef3533aa026728a00f615c9f9f7e48bf0f76",
+  "build.sh": "9cd052ca27bbb60ff706804ea4535ea66a86fd46ffab8762bbd021eded4a5454",
+  "campaign.json": "78304c9456345d0a7cc8281991d4ee363e7b25cde7ccb808ef4cf9fde9bef4a0",
+  "driver.py": "98813f1d5da13435fcc61723d53498d8608217e056a02e0e04ab6beba533f333",
+  "midpoint_candidate.py": "398ebca9a27ea98a5157d8a03363f2a64b1626c14ead0f365162831c968965e7",
+  "README.md": "3007f0964936c282a8e97f8754ebfa357ff08ebf8a6816b09470d113b85a0f06",
+  "tcw_mode.py": "48ffb113f650144c61aa9b5a510f76d983956e50a20d5ddd733cf9346b8dbdd4",
+  "validate.py": "4d648efd15a78504a345e0ac01830d40e5127db1ea03422c2a49b22277ea9e74"
+}

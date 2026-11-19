@@ -1,0 +1,37 @@
+[
+  {
+    "initial": 0.5,
+    "production_submitted": 5,
+    "threshold": 0,
+    "theory_tau": 2.0443516686472413e-09,
+    "minimum": null
+  },
+  {
+    "initial": 0.6,
+    "production_submitted": 5,
+    "threshold": 5,
+    "theory_tau": 2.7270973090471653e-08,
+    "minimum": 0.39991639975069765
+  },
+  {
+    "initial": 0.7,
+    "production_submitted": 3,
+    "threshold": 0,
+    "theory_tau": 1.9362056996893567e-06,
+    "minimum": null
+  },
+  {
+    "initial": 0.8,
+    "production_submitted": 5,
+    "threshold": 0,
+    "theory_tau": 0.00011271766120276184,
+    "minimum": 0.5578927646651652
+  },
+  {
+    "initial": 0.9,
+    "production_submitted": 1,
+    "threshold": 0,
+    "theory_tau": 0.0005338071710469436,
+    "minimum": null
+  }
+]

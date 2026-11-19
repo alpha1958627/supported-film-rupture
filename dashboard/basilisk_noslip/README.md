@@ -1,0 +1,36 @@
+# Basilisk 无滑移 hmin 看板
+
+更新时间 UTC 2026-11-19T09:57:30.641081+00:00
+
+64²、每条4 MPI核；φ=.01、m=u³、A=13.159、C_rms=5。实线仅为已保存的新模拟；虚线为64²连续Fourier谱TCW+mode，无白噪声插值滤波。固定绝对阈值u=h/h0=.4。尚未计算的区间仅有模型虚线。
+
+|工况|服务器|作业|类型|调度状态|u_min|tau|
+|---|---|---|---|---|---:|---:|
+|bm_v_h05|SIPF|65742|validation|COMPLETED|2026-11-19T17:49:32|node3|—|—|
+|bm_v_h06|SIPF|65743|validation|COMPLETED|2026-11-19T17:49:32|node2|—|—|
+|bm_v_h07|SIPF|65744|validation|COMPLETED|2026-11-19T17:49:32|node4|—|—|
+|bm_v_h08|SIPF|65745|validation|COMPLETED|2026-11-19T17:49:32|node7|—|—|
+|bm_v_h09|SIPF|65746|validation|COMPLETED|2026-11-19T17:49:32|node12|—|—|
+|bm_h06_s1|SIPF|65747|production|COMPLETED|2026-11-19T17:51:32|node3|0.3999614155633407|5.351286474609375e-08|
+|bm_h06_s2|SIPF|65748|production|COMPLETED|2026-11-19T17:51:32|node7|0.3999519452768233|5.9003337890624996e-08|
+|bm_h06_s3|SIPF|65749|production|COMPLETED|2026-11-19T17:51:32|node12|0.39992474302936937|1.0898326171875e-08|
+|bm_h06_s4|SIPF|65750|production|COMPLETED|2026-11-19T17:52:32|node3|0.39996871980062565|5.669472509765625e-08|
+|bm_h06_s5|SIPF|65751|production|COMPLETED|2026-11-19T17:52:32|node7|0.39991639975069765|9.101876074218749e-08|
+|bm_h08_s1|SIPF|65752|production|RUNNING|2026-11-19T17:52:32|node12|0.5578927646651652|3.0395999999999997e-06|
+|bm_h08_s2|SIPF|65753|production|RUNNING|2026-11-19T17:53:32|node3|0.8|0.0|
+|bm_h08_s3|SIPF|65754|production|RUNNING|2026-11-19T17:53:32|node7|0.8|0.0|
+|bm_h07_s3|SIPF|65765|production|PENDING|N/A||—|—|
+|bm_h07_s2|SIPF|65764|production|PENDING|N/A||—|—|
+|bm_h07_s1|SIPF|65763|production|PENDING|N/A||—|—|
+|bm_h05_s5|SIPF|65762|production|PENDING|2026-11-20T11:00:00||—|—|
+|bm_h05_s4|SIPF|65761|production|PENDING|2026-11-20T11:00:00||—|—|
+|bm_h05_s3|SIPF|65760|production|PENDING|2026-11-20T11:00:00||—|—|
+|bm_h05_s2|SIPF|65759|production|PENDING|2026-11-20T11:00:00||—|—|
+|bm_h05_s1|SIPF|65758|production|PENDING|2026-11-20T11:00:00||—|—|
+|bm_h09_s1|SIPF|65757|production|PENDING|2026-11-20T06:00:00||—|—|
+|bm_h08_s5|SIPF|65756|production|PENDING|2026-11-20T00:00:00||—|—|
+|bm_h08_s4|SIPF|65755|production|PENDING|2026-11-19T18:40:27||—|—|
+
+![hmin](hmin_overview.png)
+
+短测逐厚度通过后启动其5条路径；未通过不启动。6小时资源窗保存检查点续排，不代表物理完成。原BE任务不变。源码见../../basilisk_midpoint。
