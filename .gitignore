@@ -1,6 +1,7 @@
 __pycache__/
-.ipynb_checkpoints/
-.mplconfig/
-build/
+*.pyc
+*.so
+build_tmp/
 runs/
-*.exe
+sites.json
+.mplconfig/

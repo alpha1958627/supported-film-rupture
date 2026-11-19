@@ -1,0 +1,21 @@
+{
+  "noise_value_derivative": [
+    0.06572670690061994,
+    0.16431676725154984
+  ],
+  "xy_rotation_error": 4.505285033928885e-13,
+  "normal_modes": [
+    {
+      "mode": 1,
+      "measured": 2259.6485511420556,
+      "discrete_BE": 2259.639934474161,
+      "relative_error": 3.813292446919192e-06
+    },
+    {
+      "mode": 6,
+      "measured": -315597.5821972017,
+      "discrete_BE": -315828.52616822,
+      "relative_error": 0.0007312321461909743
+    }
+  ]
+}

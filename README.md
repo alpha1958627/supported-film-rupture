@@ -1,110 +1,87 @@
-# 附壁液膜
+# 附壁液膜：厚度依赖迁移率的 BE / 多重网格计算
 
-本仓库用二维长波模型推进刚性固壁上液膜的三维自由表面 $`z=h(x,y,t)`$。壁面无滑移，气相剪切忽略。表面张力抹平起伏，范德华吸引可使长波扰动增长，热噪声则驱动稳定平膜的厚度涨落。算例覆盖近乎平膜阶段。
+当前版本计算无滑移固壁上的二维高度场 `h(x,y,τ)`，对应三维液膜自由表面。迁移率随局部厚度变化为 `m(h)=h³`，含吸引性范德华力和保守白噪声通量。时间推进使用随机后向欧拉（BE），通过 Basilisk 多重网格及外层非线性迭代求解。
 
-## 模型与时间推进
+## 当前25条独立轨迹
 
-记无量纲厚度为 $`H=h/h_0`$，平膜对应 $`H=1`$。长度以 $`h_0`$ 归一化，时间以 $`\mu h_0/\gamma`$ 归一化。迁移率在平膜上取值，压力保留非线性的范德华项。无热噪声时，方程为
+| 项目 | 设置 |
+|---|---|
+| 初始厚度 `h_i/h_0` | 0.5、0.6、0.7、0.8、0.9，各5个独立种子 |
+| 网格、噪声 | 64²周期计算网格；white6，即64²独立面白噪声 |
+| 噪声强度、滑移 | φ=0.01；无滑移 |
+| 归一化 | 盒长1，`A=4π²/3`，`m=h³`；`h_0`是固定参考厚度 |
+| 时间 | `τ=t_previous/(3×128⁴)=t_previous/805306368` |
+| 停止条件 | 正有限厚度首次跨到 `hmin/h_0≤0.005`，保存时间括区与前后厚度 |
+| 每条资源 | 4物理OpenMP核；6小时资源窗口，检查点续排 |
+| 完整更新残差、质量误差 | `<1e-8`、`<1e-9`；不裁剪厚度、不补质量、不重抽拒步噪声 |
 
-```math
-\partial_{t^*}H=-\mathcal M P(H),\qquad
-P(H)=-\nabla_*^2 H+a(H^{-3}-1).
-```
+[完整工况与种子](campaign.json) · [状态CSV](dashboard/status.csv) · [看板HTML](dashboard/index.html) · [验证结果和来源SHA](dashboard/data.json)
 
-其中 $`a`$ 为无量纲吸引系数，$`\nabla_*`$ 对无量纲膜面坐标求导。对模态 $`(m_x,m_y)`$，无量纲波数向量为 $`\boldsymbol q=2\pi(m_x/L_x^*,m_y/L_y^*)`$，其中 $`L_i^*=L_i/h_0`$，并记 $`q=|\boldsymbol q|`$。无滑移固壁与零切应力自由表面给出迁移率算子的 Fourier 乘子
+![25条轨迹及TCW+mode看板](dashboard/board.png)
 
-```math
-M(q)=\frac{q^2}{3},\quad q>0,\qquad M(0)=0.
-```
+看板保留每个厚度的全部5条轨迹，不将未到阈值的轨迹计为破碎时间。虚线为每个厚度唯一的 TCW+mode：沿用 `C_rms=3.5`、white6连续谱传递近似、固定256²求和截断及值/斜率连续拼接；不随种子重算或拟合。256²是理论求和设置，计算网格仍是64²。
 
-代码取无量纲液体黏度和表面张力为 1。将平膜线性化，连续理论给出模态率和振幅
+方形末点表示尚在计算，空心圆表示实际保存的停止阈值，叉表示数值停止。图仅画到核验的保存检查点；刷新时间写在看板内。hmin=0.3的短暂下穿与最终停止阈值0.005不同。
 
-```math
-s^*(q)=\frac{q^2}{3}\left(3a-q^2\right),\qquad
-A(t^*)=A(0)\,e^{s^*(q)t^*}.
-```
-
-纯表面张力下，所有非零模态衰减。有吸引时，$`0<q<\sqrt{3a}`$ 的模态增长。正则模对照通过拟合 $`\log[A(t^*)/A(0)]`$ 的斜率得到数值模态率。
-
-两套程序在周期等距网格上使用中心差分拉普拉斯算子，在 Fourier 空间作用迁移率，并按隐式中点推进
+## 方程与离散
 
 ```math
-H^{n+1}-H^n=-\Delta t^*\mathcal M_d P_d\!\left(\tfrac{H^{n+1}+H^n}{2}\right)
- + \frac{\sqrt{2\theta\Delta t^*\mathcal M_d}}{\Delta x^*}\,\xi^n.
+\partial_\tau h=\nabla\cdot\left[h^3\nabla\left(-\nabla^2h+A h^{-3}\right)+\sqrt{2\varphi h^3}\,\boldsymbol\xi\right],\qquad A=4\pi^2/3.
 ```
 
-$`P_d`$ 和 $`\mathcal M_d`$ 分别为离散压力和迁移率。设 $`q_{d,i}=2\sin(q_i\Delta x^*/2)/\Delta x^*`$，离散拉普拉斯的乘子为 $`-q_d^2=-(q_{d,x}^2+q_{d,y}^2)`$，离散迁移率为 $`M_d=q_d^2/3`$。平方根按 Fourier 乘子逐模态计算。$`\theta=k_BT/(\gamma h_0^2)`$ 为无量纲噪声强度，$`\xi^n`$ 是该步的标准高斯网格场。持续加噪每步输入新的噪声场，仅首步加噪从第二步起将噪声项置零。
+网格上使用算术面厚度。毛细压力作中心差分；吸引项保留旧多重网格程序的面中点链式近似 `-3A/h_face × grad(h)`。它在平膜线性化时与直接化学势差一致，强梯度下并不完全相同，不能据此声称复现旧化学势差求解器的破碎时间。
 
-模型与 TCW 理论参考 [Zhang 等，Phys. Rev. E 102, 053105](https://doi.org/10.1103/PhysRevE.102.053105) 和 [Zhang 等，J. Fluid Mech. 915, A135](https://doi.org/10.1017/jfm.2021.164)。
+BE 在每步末态计算确定性通量与乘性噪声通量，外层线性化的噪声导数与 `sqrt(2φ) h_face^(3/2)`一致。拒步时沿同一 Brownian bridge 细分；不更换底层随机路径。内部多重网格方程残差因时间换算乘805306368；最终物理更新残差和质量门槛不变。
 
-## 二维无涨落正则模
+## 先验证，再启动每个厚度的5条轨迹
 
-两组均采用 $`64\times64`$ 周期网格，取 $`L_x/h_0=L_y/h_0=128`$、$`\Delta t^*=8`$。初始扰动为斜向 $`(m_x,m_y)=(2,2)`$ 的余弦波，振幅 $`10^{-3}h_0`$，热噪声为零。
+每个厚度先检查：噪声通量及其厚度导数；x/y转置对称；一个增长模与一个衰减模的离散BE模态率；两条独立噪声路径、64个共同保存时刻的步长对照；检查点重放。
 
-| 工况 | JAM 与 Basilisk 拟合的模态率 | 连续长波理论 |
-| --- | --- | --- |
-| 有吸引，$`a=0.0084375`$ | $`3.90562\times10^{-5}`$ | $`3.87840\times10^{-5}`$ |
-| 无吸引，$`a=0`$ | $`-1.23068\times10^{-4}`$ | $`-1.23862\times10^{-4}`$ |
+短测以 `2.1e-9/64` 为细步参考，依次筛查除数8、16、32。最大场RMS相对差须≤2%，最大hmin差须≤0.005；通过后对应5条轨迹才提交。质量、残差和正厚度接受门槛始终相同。通过结果见 [validation](validation/README.md)。这是有限时间强误差筛查，**不代表长期平衡或首达时间统计已收敛**。
 
-左图只展示有吸引时 Basilisk 在 $`t^*=640`$ 的厚度场。右图在同一坐标框内比较增长和衰减，黑线为连续理论。图的横纵轴、线性尺度、色标和范围沿用 [自由液膜仓库](https://github.com/alpha1958627/free-film-rupture)。附壁膜的演化较慢，到 $`t^*=640`$，两组振幅分别为初值的 102.5% 和 92.4%。
+初版正则模检查对0.8、0.9推进过久，振幅衰减到约1e-11，低于高度迭代容差，拟合失败。新版在可分辨振幅窗口测量，保留相同2%误差门槛；初版失败证据单独保留。
 
-![有吸引的末态厚度场，以及有无吸引的模态振幅对照](postprocess/figures/normal_mode_2d.png)
+## 方法版本的区别
 
-[正则模.ipynb](postprocess/正则模.ipynb) 用保存的厚度场和振幅历史重画合图。[合图 PDF](postprocess/figures/normal_mode_2d.pdf)
+| 版本 | 迁移率与噪声 | 时间推进与求解 | 位置 |
+|---|---|---|---|
+| 本版 BE / MG | 局部 `h³`；保守乘性面噪声 | 末态随机BE；Basilisk MG + 非线性外迭代 | [be](be/) |
+| 本版之前的0.7 BE试跑 | 同样局部 `h³`；φ=0.01 | 同一BE内核；固定初厚0.7、独立种子61101 | [试跑与换单位检查归档](archives/be_pilot_and_checks_20261119.zip) |
+| 原仓库 JAM / C-FFT | 冻结于初态的迁移率；加性噪声 | 隐式中点；Python Fourier或C FFT固定点求解 | [旧代码归档](archives/legacy_code_20261119.zip) |
+| 原仓库正则模、TCW验证 | 对应上行冻结迁移率程序 | 旧程序自身的Python/C对照 | [旧验证归档](archives/legacy_validation_20261119.zip) |
+| 旧截图 Basilisk .3 | 局部 `h³+0.2h²`，φ=0.01 | 随机中点、Newton–GMRES和FFT预条件；16MPI | 外部历史对照，不是本仓库旧FFT验证，也不是本版BE |
 
-## 二维热涨落厚度场
+`.3`是旧程序的原生最大时间步，不是hmin阈值。对初厚0.7，旧 Basilisk .3 的共同单位为 `h=.7 H_old`、`τ=.7 t_old/1e8`。旧有滑移、本版无滑移，离散与核心数也不同；统一单位后仍不能直接解释为同条件算法速度比。
 
-[tcw.ipynb](postprocess/tcw.ipynb) 比较持续加噪与首步加噪的二维壳平均谱。对无吸引的稳定平膜，记非零 Fourier 模态的功率为 $`S(q,t^*)=\langle|\widehat{H-1}|^2\rangle`$。在边长为 $`L^*`$ 的正方形周期域，连续理论给出
+旧验证只支持它实际运行的方法。归档旧验证不等于本版BE已通过同样的长期谱或首达检验。
 
-```math
-\begin{aligned}
-S_{\rm on}(q,t^*)&=\frac{\theta}{(L^*)^2q^2}\left[1-e^{2s^*(q)t^*}\right],\\
-S_{\rm off}(q,t^*)&=S(q,t_0^*)\,e^{2s^*(q)(t^*-t_0^*)},\qquad t_0^*=\Delta t^*.
-\end{aligned}
+## 重跑与更新看板
+
+依赖 Python、NumPy、SciPy；绘图另需 Matplotlib、Pillow 和真实 LaTeX 工具链。Linux 上用安装好的 Basilisk 编译：
+
+```bash
+cd be
+export BASILISK=/path/to/basilisk/src
+bash build.sh
+cd ..
+mkdir -p runs/current
+cp be/wall_native.so runs/current/
+cp sites.example.json runs/current/sites.json
+# 编辑 sites.json 为自己有权限的服务器、Python与Basilisk路径。
+python cluster.py --workspace runs/current prepare
+python cluster.py --workspace runs/current watch
 ```
 
-持续加噪从平膜起步，首步加噪以实测的首步功率谱为初值。图中对每个波数壳的功率取平均后开平方。横轴为 $`|\boldsymbol q|h_0`$，纵轴为 $`10^3|\widehat{\delta h}/h_0|_{\rm rms}`$，均采用与自由液膜仓库相同的线性尺度和范围。
+调度器先投SIPF；确实排队时才投XH与WUZH。精确路由记录在工作目录的candidates/selected回执中；有一个副本运行后，取消其他副本、校验其归档再清理。只处理本批次登记的作业目录。验证失败的厚度不提交生产，不自动放宽门槛。数值失败保存后停止；6小时资源窗结束通过原参数检查点续排。
 
-下图来自 SIPF 作业 `62083`，使用 $`512\times512`$ 网格。持续加噪和仅首步加噪各计算 30 对 JAM/Basilisk 轨迹，保留 84 个完整波数壳，并与连续长波理论同图对照。
-
-![SIPF 512×512 网格的 TCW 谱，比较 JAM、Basilisk 与连续理论](postprocess/figures/tcw_sipf_512.png)
-
-[SIPF 512×512 TCW 谱 PDF](postprocess/figures/tcw_sipf_512.pdf)
-
-动图取自 $512\times512$ 周期网格上种子 `61100` 的配对轨迹，左侧为 JAM，右侧为 Basilisk。两组显示相同的 $256h_0\times256h_0$ 区域，使用与自由液膜仓库相同的 82 个时刻、视角、纵轴范围和色标。
-
-### 持续加噪
-
-![持续加噪下 JAM 与 Basilisk 的三维厚度场并排动画](postprocess/figures/tcw_continuous_3d_paired.gif)
-
-### 仅首步加噪
-
-![仅首步加噪下 JAM 与 Basilisk 的三维厚度场并排动画](postprocess/figures/tcw_first_step_3d_paired.gif)
-
-## 附壁液膜破碎与预测对照
-
-![附壁液膜初始厚度与破碎时间、最低厚度历史及原预测的对照](postprocess/figures/wall_film_rupture_prediction_20261112.png)
-
-## 代码入口
-
-- [JAM 二维求解器](jam/wall_film_2d.py) 的 `WallFilm2D.advance(h, white)` 推进一步。线性项在 Fourier 空间消元，有吸引时用解析雅可比修正非线性残差。
-- [Basilisk 二维求解器](basilisk/wall_film_midpoint_2d.c) 用 `qcc` 编译，调用 [二维 FFT](basilisk/gas_fft_2d.h)，用定点迭代求解非线性中点压力。程序从标准输入读取初始厚度和逐步高斯场，从标准输出返回保存的厚度帧。
-- [配对运行与谱统计](postprocess/run_tcw.py) 给两个求解器传入相同的初态和随机场，再计算 Fourier 壳平均谱。[后处理目录](postprocess/) 包含正则模与 TCW 的 Notebook、绘图脚本和 SIPF 的逐种子壳功率。图轴参考值保存在 [figure_reference.json](postprocess/data/figure_reference.json)。
-
-## 复算
-
-需要 NumPy、Matplotlib、Jupyter Python 内核、Pillow 和用于图中文字渲染的 LaTeX。使用 Basilisk `qcc` 编译二维中点程序。
-
-```sh
-python -m pip install -r requirements.txt
-mkdir -p build
-qcc -O3 -disable-dimensions -I"$PWD/basilisk" basilisk/wall_film_midpoint_2d.c -o build/wall_film_midpoint_2d -lm
-python postprocess/run_tcw.py build/wall_film_midpoint_2d runs/tcw_512 --grid 512 --replicas 30 --workers 6
-python postprocess/figures.py
-python postprocess/replay_surfaces.py build/wall_film_midpoint_2d
-python postprocess/render_surfaces.py
+```bash
+python collect.py --workspace runs/current
+python render.py --workspace runs/current
+python be/tcw_mode.py  # 重现已登记的0.7 TCW参考交点
 ```
 
-$512^2$ 算例使用 $L_x/h_0=L_y/h_0=1024$，保留 $\Delta x/h_0=\Delta y/h_0=2$。在相同波数上限 $|\boldsymbol q|h_0\leq\pi/6$ 内，共有 84 个完整的非零 Fourier 壳。终点 $t^*=1280$，每条轨迹 160 步。两种协议各有 30 对轨迹，每对包含 JAM 和 Basilisk。`run_tcw.py` 把结果写入指定目录，Notebook 和绘图脚本默认读取 `postprocess/data` 中发布的数据。
+原始场、检查点和完整历史保留在运行端/本地，不上传新的原始场到GitHub。公开看板包含绘图抽样、参数、统计及来源SHA。图按时间分箱保留首末及极值，不平滑。每张独立图8×6英寸、20pt真实LaTeX、PDF和600dpi PNG；总览拼图用于浏览。
 
-SIPF `node2` 于北京时间 2026-11-11 02:28:10–02:33:54 完成原批次，实测 5 分 44 秒。持续加噪与首步加噪谱相对离散中点理论的壳 RMS 偏差中位数分别为 0.56% 和 0.55%。首步加噪在长时间高波数端的离散衰减与连续理论可见差异，CSV 同时保留两种理论。原批次 $128^2$ 网格到 $t^*=16384$ 的发展率检查保存在 [长时间验证数据](postprocess/data/validation_long_window.json)。
+## 归档与恢复
+
+本次改版以提交 `c3267936502517be6ac3d963781844d3561c01ae` 为基础。旧代码、原README、Notebook及本地既有补充代码装入代码ZIP；已经公开的旧验证数据、图像和动画装入验证ZIP。将两个ZIP解压到同一目录即可恢复原布局。本地原工作树没有删除或覆盖。[逐文件SHA与归档SHA](archives/manifest.json)。新增BE试跑检查另有独立归档。

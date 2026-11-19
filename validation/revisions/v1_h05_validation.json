@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "initial": 0.5,
+  "selected_divisor": 8,
+  "dt_cap": 2.625e-10,
+  "structural": {
+    "noise_value_derivative": [
+      0.05,
+      0.15000000000000002
+    ],
+    "xy_rotation_error": 5.223599330861362e-13,
+    "normal_modes": [
+      {
+        "mode": 1,
+        "measured": 2920.5169813301186,
+        "discrete_BE": 2920.5090707758636,
+        "relative_error": 2.708621703817471e-06
+      },
+      {
+        "mode": 6,
+        "measured": -128419.74577737843,
+        "discrete_BE": -128421.34414525777,
+        "relative_error": 1.2446279004318939e-05
+      }
+    ]
+  },
+  "restart_max_errors": [
+    1.1102230246251565e-16,
+    1.1102230246251565e-16
+  ],
+  "screen": {
+    "8": {
+      "passed": true,
+      "seeds": [
+        {
+          "seed": 2026112040,
+          "max_relative_field_rms_error": 0.010742024039798771,
+          "max_abs_hmin_difference": 0.0013760383270120524,
+          "steps": 2048,
+          "rejected": 0
+        },
+        {
+          "seed": 2026112041,
+          "max_relative_field_rms_error": 0.010459130511325904,
+          "max_abs_hmin_difference": 0.0009600725984751923,
+          "steps": 2048,
+          "rejected": 0
+        }
+      ]
+    }
+  },
+  "policy": {
+    "seeds_per_height": 2,
+    "macro_intervals": 256,
+    "reference_divisor": 64,
+    "candidates": [
+      8,
+      16,
+      32
+    ],
+    "frames": 64,
+    "max_relative_field_rms_error": 0.02,
+    "max_abs_hmin_difference": 0.005
+  },
+  "elapsed_actual_seconds": 439.95712039992213,
+  "limitation": "Two-seed short-time strong-error screen, not long-time or first-passage convergence"
+}

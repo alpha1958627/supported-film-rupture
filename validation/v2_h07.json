@@ -1,0 +1,73 @@
+{
+  "passed": true,
+  "initial": 0.7,
+  "selected_divisor": 8,
+  "dt_cap": 2.625e-10,
+  "structural": {
+    "noise_value_derivative": [
+      0.08282511696339462,
+      0.17748239349298847
+    ],
+    "xy_rotation_error": 4.808375919651553e-13,
+    "normal_modes": [
+      {
+        "mode": 1,
+        "measured": 1691.1290677593345,
+        "discrete_BE": 1691.1258014830605,
+        "relative_error": 1.93142122895118e-06,
+        "dt": 1e-07,
+        "steps": 32,
+        "final_amplitude": 0.00010054262822440079
+      },
+      {
+        "mode": 6,
+        "measured": -573054.9332232422,
+        "discrete_BE": -573054.9232360859,
+        "relative_error": 1.7427921550350334e-08,
+        "dt": 1.7363660008324832e-08,
+        "steps": 32,
+        "final_amplitude": 7.273041012351926e-05
+      }
+    ]
+  },
+  "restart_max_errors": [
+    2.220446049250313e-16,
+    1.1102230246251565e-16
+  ],
+  "screen": {
+    "8": {
+      "passed": true,
+      "seeds": [
+        {
+          "seed": 2026112060,
+          "max_relative_field_rms_error": 0.01808664724032408,
+          "max_abs_hmin_difference": 0.0017982727548656596,
+          "steps": 2048,
+          "rejected": 0
+        },
+        {
+          "seed": 2026112061,
+          "max_relative_field_rms_error": 0.017648871474273173,
+          "max_abs_hmin_difference": 0.0019634586120295117,
+          "steps": 2048,
+          "rejected": 0
+        }
+      ]
+    }
+  },
+  "policy": {
+    "seeds_per_height": 2,
+    "macro_intervals": 256,
+    "reference_divisor": 64,
+    "candidates": [
+      8,
+      16,
+      32
+    ],
+    "frames": 64,
+    "max_relative_field_rms_error": 0.02,
+    "max_abs_hmin_difference": 0.005
+  },
+  "elapsed_actual_seconds": 188.87089002598077,
+  "limitation": "Two-seed short-time strong-error screen, not long-time or first-passage convergence"
+}

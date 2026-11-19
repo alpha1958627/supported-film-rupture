@@ -1,0 +1,5 @@
+[
+  {"server":"SIPF","host":"your-sipf-ssh-alias","user":"your-user","base":"/your/home/wall_be_ensemble_20261119","python":"/your/env/bin/python","partition":"your-partition","allocated_cpus":8,"basilisk":"/path/to/basilisk/src"},
+  {"server":"XH","host":"your-xh-ssh-alias","user":"your-user","base":"/your/home/wall_be_ensemble_20261119","python":"/your/env/bin/python","partition":"your-partition","allocated_cpus":4,"basilisk":"/path/to/basilisk/src"},
+  {"server":"WUZH","host":"your-wuzh-ssh-alias","user":"your-user","base":"/your/home/wall_be_ensemble_20261119","python":"/your/env/bin/python","partition":"your-partition","allocated_cpus":4,"basilisk":"/path/to/basilisk/src"}
+]

@@ -1,0 +1,12 @@
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.html text eol=lf
+*.csv text eol=lf
+*.txt text eol=lf
+*.sha256 text eol=lf
+# Imported solver sources retain the exact bytes used by the running jobs.
+be/wall_native.c -text -eol whitespace=-blank-at-eol
+be/noise.py -text -eol whitespace=cr-at-eol,-blank-at-eof
+be/colored.py -text -eol
