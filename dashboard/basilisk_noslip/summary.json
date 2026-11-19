@@ -15,7 +15,7 @@
   },
   {
     "initial": 0.7,
-    "production_submitted": 3,
+    "production_submitted": 5,
     "threshold": 0,
     "theory_tau": 1.9362056996893567e-06,
     "minimum": null
@@ -25,11 +25,11 @@
     "production_submitted": 5,
     "threshold": 0,
     "theory_tau": 0.00011271766120276184,
-    "minimum": 0.5578927646651652
+    "minimum": 0.5536848783514722
   },
   {
     "initial": 0.9,
-    "production_submitted": 1,
+    "production_submitted": 5,
     "threshold": 0,
     "theory_tau": 0.0005338071710469436,
     "minimum": null
