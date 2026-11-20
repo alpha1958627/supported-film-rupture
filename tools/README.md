@@ -9,6 +9,7 @@
 | BE | be/render.py | 全部种子、TCW+mode和HTML看板 |
 | 中点 | basilisk_midpoint/cluster.py | MPI编译、验证门槛和调度 |
 | 中点 | basilisk_midpoint/report.py | 核验SHA，采集并生成中点版看板 |
+| 中点 | basilisk_midpoint/mean.py | 完整历史按共同物理时间对齐，计算每厚度5条停止路径的算术平均 |
 | 统计 | analysis/compare_events.py | 初始厚度1%事件与旧Basilisk对照 |
 | 统计 | analysis/compare_h03.py | 固定参考厚度0.3或0.4首次事件 |
 | 原图 | analysis/review_c5_image_reference.py | C=5及原图数据；初始厚度40%判据 |

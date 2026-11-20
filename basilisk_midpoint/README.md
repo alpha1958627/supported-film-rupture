@@ -39,6 +39,6 @@
 
 ## 图与理论
 
-[实时派生看板](../dashboard/basilisk_noslip/README.md) 由 `python tools/basilisk_midpoint/report.py --workspace <私有工作目录>` 刷新。实线画所有已保存种子；方形末点为未到阈值，圆形末点为实际跨越。公开仅抽样hmin、门槛验证和脱敏状态，完整历史与场留在服务器。
+[实时派生看板](../dashboard/basilisk_noslip/README.md) 由 `python tools/basilisk_midpoint/report.py --workspace <私有工作目录>` 刷新。实线为每厚度5条路径的平均，完整历史在相同物理时间上线性插值，首达后固定在.4，始终n=5，不做时间平滑。终点是组内最晚首达，不是平均破碎时间。`tools/basilisk_midpoint/mean.py` 可独立重算均值，`report.py --offline`复用本地核验快照和平均值。公开仅派生hmin、门槛验证和脱敏状态，完整历史与场留在服务器。
 
 `tcw_mode.py` 用本实现的64²连续Fourier白噪声谱、A=13.159、无滑移和 `C_rms=5`，不加BE旧理论中的双线性插值传递函数；值及斜率连续拼接至最快增长模。每个厚度只有一条确定模型线，所有种子共用。它是线性涨落包络与模式增长预测，不是随机首达平均；与BE旧256²、sinc⁴过滤的模型线有定义差异。
