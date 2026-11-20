@@ -354,18 +354,6 @@
   ],
   "stop_definition": "first accepted-step u_min=h_min/h_reference<=.4; not .4 of initial height",
   "normalization": "u=r*H_native; tau=r*t_native/1e8; r=h_i/h_reference",
-  "original_source_sha256": {
-    "basilisk_midpoint.c": "0488063ed4a2a31a3cb739945dc56e4da2a8acaca307f78642d14b6c3bbf632c",
-    "basilisk_midpoint_candidate.py": "22710f42f09abcb829ae6bdc1fc0410176aa53029f166a4aabd3ceba8e0ae194",
-    "adaptive_runner.py": "34f5fd6c03342f4c7969d02e3436bbe05f94f70aab43c0363dc3a2c2dd418767",
-    "midpoint_candidate.py": "05c60bbd5a2839e45775e5a5d2239fe4ea817335e769bc1d9f0093388a208939",
-    "run_formal.py": "2938d70fc31cadbee93e3b30eda58cd7c5a2d33d2ef2eaa526dc1c55ec5204f5",
-    "build_and_smoke.py": "7cb4011a25764f32e77304ccc097e473777c38f26412a03bfbc76f68134d5ce4",
-    "build.slurm": "4a7b8effe03cfe8b235f0c6f915944aff2d0a212c391418854bf5a473519857b",
-    "formal_r16.slurm": "e913bfc0ddeea2d50405b30330d82711cedc03a452490705b3c1043ab182189d",
-    "formal_source_manifest.json": "802b5fc67244822bc11df0254db8fdb2aab01ceab03013efc67307a4af9c7132"
-  },
-  "original_archive_sha256": "16b5831603d8935e66551b44a369260ac5ad7564736465917fa827e2da1a49ad",
   "validation": {
     "reference_cap": 0.009375,
     "candidate_caps": [
@@ -382,5 +370,5 @@
     "max_abs_u_min_difference": 0.005
   },
   "existing_jobs_untouched": true,
-  "notes": "Only slip changed from the archived physical solver, A_unit=13.159 retained. Current BE uses 4pi\u00b2/3=13.1594725348; difference is recorded, not hidden. C_rms=5 is plotting only."
+  "notes": "Current no-slip midpoint: A_unit=13.159. BE uses 4pi^2/3. Physical parameters and seeds only; no trajectories or result data."
 }

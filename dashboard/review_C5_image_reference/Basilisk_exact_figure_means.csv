@@ -1,6 +1,0 @@
-﻿series,h0,criterion,tau,tau_lower,tau_upper,n,md_time_ps,switch_tau,switch_H,branch,omega,crms,q_used,delta0,t_code
-Basilisk,0.5,first_recorded_Hmin_0.4,1.595433991224486e-06,1.5e-06,2.171062828369141e-06,5.0,,,,,,,,,
-Basilisk,0.6,first_recorded_Hmin_0.4,1.6126845055645104e-05,1.548e-05,1.6972008560156252e-05,5.0,,,,,,,,,
-Basilisk,0.7,first_recorded_Hmin_0.4,8.113437658780188e-05,8.064e-05,8.234546104838867e-05,5.0,,,,,,,,,
-Basilisk,0.8,first_recorded_Hmin_0.4,0.0002622929597902,0.00026064,0.00026304,5.0,,,,,,,,,
-Basilisk,0.9,first_recorded_Hmin_0.4,0.0005067583884984,0.0005049,0.0005074183909182,5.0,,,,,,,,,

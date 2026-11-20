@@ -1,6 +1,0 @@
-{
-  "passed": false,
-  "initial": 0.8,
-  "error": "AssertionError({'mode': 6, 'measured': -833497.1291675277, 'discrete_BE': -868904.9298780777, 'relative_error': 0.040749913475020105},)",
-  "elapsed_actual_seconds": 0.7367133516818285
-}

@@ -5,3 +5,16 @@ build_tmp/
 runs/
 sites.json
 .mplconfig/
+
+# Private simulation outputs must not be republished.
+dashboard/
+archives/
+reference/
+validation/
+*.npz
+*.npy
+*.zip
+*.tar.gz
+*.csv
+**/data.json
+**/snapshot.json
