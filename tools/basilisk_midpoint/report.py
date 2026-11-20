@@ -2,7 +2,7 @@
 from pathlib import Path
 import argparse,json,subprocess,shlex,hashlib,sys,os,csv,io
 import numpy as np
-p=argparse.ArgumentParser();p.add_argument('--workspace',required=True);args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--workspace',required=True);p.add_argument('--offline',action='store_true',help='Render the last verified local snapshot without SSH');args=p.parse_args()
 ROOT=Path(args.workspace);REPO=Path(__file__).resolve().parents[2];OUT=REPO/'dashboard/basilisk_noslip';OUT.mkdir(exist_ok=True)
 campaign=json.loads((ROOT/'campaign.json').read_text());selected=json.loads((ROOT/'selected.json').read_text());records=[]
 code=r'''
@@ -21,17 +21,19 @@ if (p/'run/latest.json').exists():
   a=np.loadtxt(io.BytesIO(raw),delimiter=',',skiprows=1,usecols=(0,2),ndmin=2);assert len(a)==d['accepted'] and a[-1,0]==d['time']
   # Preserve extrema on a log-time sampling mesh, including earliest transients.
   keep={0,len(a)-1};bins=np.searchsorted(np.geomspace(max(a[0,0],1e-20),max(a[-1,0],a[0,0])*1.00001,401),a[:,0])
-  for b in np.unique(bins):
-   ix=np.flatnonzero(bins==b);keep.update((int(ix[0]),int(ix[-1]),int(ix[np.argmin(a[ix,1])]),int(ix[np.argmax(a[ix,1])])))
+  starts=np.r_[0,np.flatnonzero(np.diff(bins))+1];ends=np.r_[starts[1:],len(a)]
+  for lo,hi in zip(starts,ends):
+   keep.update((int(lo),int(hi-1),int(lo+np.argmin(a[lo:hi,1])),int(lo+np.argmax(a[lo:hi,1]))))
   row['curve']=a[sorted(keep)].tolist()
  else:row['curve']=[]
 print(json.dumps(row))
 '''
 routes=json.loads((ROOT/'candidates.json').read_text())
 pending={r['name']:dict(winner=r) for r in reversed(routes) if r['name'] not in selected}
-for name,choice in dict(selected,**pending).items():
+if args.offline:records=json.loads((ROOT/'bm_snapshot.json').read_text())['records']
+for name,choice in ([] if args.offline else dict(selected,**pending).items()):
  route=choice['winner'];cmd='cd '+shlex.quote(route['remote'])+' && PYTHONPATH='+shlex.quote(route.get('pythonpath',''))+' '+route['python']+' -c '+shlex.quote(code)
- r=subprocess.run(['ssh',route['host'],'bash -lc '+shlex.quote(cmd)],capture_output=True,text=True,timeout=90)
+ r=subprocess.run(['ssh',route['host'],'bash -lc '+shlex.quote(cmd)],capture_output=True,text=True,timeout=180)
  item=dict(name=name,server=route['server'],job=route['job'],kind=route['kind'],selected=name in selected)
  if r.returncode:item['read_error']=r.stderr[-500:]
  else:item.update(json.loads(r.stdout))
@@ -40,7 +42,9 @@ for name,choice in dict(selected,**pending).items():
  r=subprocess.run(['ssh',route['host'],'bash -lc '+shlex.quote(cmd)],capture_output=True,text=True,timeout=30)
  item['scheduler']=r.stdout.strip().splitlines()[0] if r.returncode==0 and r.stdout.strip() else 'QUERY_ERROR'
  records.append(item)
-snapshot=dict(utc=__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),records=records)
+production_records=[r for r in records if r['kind']=='production']
+assert len(production_records)==25 and all('latest' in r and 'read_error' not in r for r in production_records),'Incomplete collection; keep previous valid dashboard'
+snapshot=json.loads((ROOT/'bm_snapshot.json').read_text()) if args.offline else dict(utc=__import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),records=records)
 (ROOT/'bm_snapshot.json').write_text(json.dumps(snapshot,indent=2))
 # Publish metadata and sampled hmin only; no raw fields, checkpoint or full history.
 public=[]
@@ -64,7 +68,7 @@ def figure():
  fig=plt.figure(figsize=(8,6));ax=fig.add_axes([.16,.21,.81,.49]);ax.set(xscale='log',xlabel=r'$\tau$',ylabel=r'$h_{\min}/h_0$',ylim=(.37,.96));ax.grid(False,which='both');ax.axhline(.4,color='0.5',ls=':',lw=1)
  fig.legend(handles=[Line2D([],[],color=c,marker=m,mfc='white',label=r'$h_i/h_0=%.1f$'%h) for h,c,m in zip(heights,colors,markers)],loc='upper center',bbox_to_anchor=(.55,1.01),ncol=3,columnspacing=.7,handlelength=1.3,labelspacing=.1)
  return fig,ax
-fig,ax=figure();end=max(m.crossing(.4) for m in models.values());ax.set_xlim(1e-10,end*1.1)
+fig,ax=figure();end=max([m.crossing(.4) for m in models.values()]+[r.get('latest',{}).get('time',0) for r in records]);ax.set_xlim(1e-10,end*1.1)
 production=[r for r in records if r['kind']=='production'];summary=[]
 for h,c in zip(heights,colors):
  m=models[h];t=np.geomspace(1e-10,m.crossing(.4),450);ax.plot(t,[m.predict(v) for v in t],ls='--',color=c,lw=1.7)
